@@ -1,23 +1,25 @@
 # same as 538
 class Solution:
-    def twoSumBSTs(self, root1: TreeNode, root2: TreeNode, target: int) -> bool:
-        stk, pool = [], set()
-        while stk or root1:
-            while root1:
-                stk.append(root1)
-                root1 = root1.left
-            temp = stk.pop()
-            pool.add(temp.val)
-            root1 = temp.right
-        stk = [root2]
-        while stk:
-            temp = stk.pop()
-            if target-temp.val in pool:
-                return True
-            if temp.right: stk.append(temp.right)
-            if temp.left: stk.append(temp.left)
-        return False
-
+    def bstToGst(self, root: TreeNode) -> TreeNode:
+        def helper(root, pre):
+            if not root: return pre
+            root.val += helper(root.right, pre)
+            return helper(root.left, root.val)
+        helper(root, 0)
+        return root
+class Solution:
+    def bstToGst(self, root: TreeNode) -> TreeNode:
+        def helper(root, pre):
+            if not root: return (0+pre, None)
+            valr, right = helper(root.right, pre)
+            vall, left = helper(root.left, valr+root.val)
+            root.val += valr
+            root.right =right
+            root.left = left
+            return (vall,root)
+        _, root = helper(root, 0)
+        return root
+        
 class Solution:
     def convertBST(self, root: TreeNode) -> TreeNode:
         curr, stk, last = root, [], 0
