@@ -23,3 +23,19 @@ class Solution:
             return maxRR, minLL, temp, ss
         _, _, _, rslt = helper(root)
         return self.rslt
+
+class Solution:
+    def maxSumBST(self, root: TreeNode) -> int:
+        self.rslt = 0
+        def helper(root):
+            if not root: return -float("inf"), float("inf"), True, 0
+            maxR, minR, isBSTR, sumR = helper(root.right)
+            maxL, minL, isBSTL, sumL = helper(root.left)
+            isBST, total= False, 0
+            if isBSTR and isBSTL and minR > root.val > maxL:
+                isBST = True
+                total = sumR+sumL+root.val
+                self.rslt = max(self.rslt, sumR+sumL+root.val)
+            return max(maxR, root.val), min(minL, root.val), isBST, total
+        helper(root)
+        return self.rslt
