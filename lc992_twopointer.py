@@ -30,4 +30,18 @@ class Solution:
         if not A: return 0
         return self.atMostK(A, K) - self.atMostK(A, K - 1)
 
-
+class Solution:
+    def subarraysWithKDistinct(self, A: List[int], K: int) -> int:
+        memo, lefta, leftb, rslt = collections.defaultdict(int), 0, 0, 0
+        for right, num in enumerate(A):
+            memo[num] += 1
+            if len(memo) > K:
+                del memo[A[leftb]]
+                leftb += 1
+                lefta = leftb
+            if len(memo) == K:
+                while memo[A[leftb]] > 1:
+                    memo[A[leftb]] -= 1
+                    leftb += 1
+                rslt += leftb-lefta+1
+        return rslt
