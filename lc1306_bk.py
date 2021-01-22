@@ -15,3 +15,17 @@ class Solution:
                 backtracking(idx-arr[idx])
         backtracking(start)
         return self.rslt
+    
+   class Solution:
+    def canReach(self, arr: List[int], start: int) -> bool:
+        dque, visited = collections.deque([start]), {start}
+        while dque:
+            curr =dque.popleft()
+            if arr[curr] == 0: return True
+            if curr + arr[curr] < len(arr) and curr+arr[curr] not in visited:
+                visited.add(curr+arr[curr])
+                dque.append(curr+arr[curr])
+            if curr - arr[curr] >= 0 and curr - arr[curr] not in visited:
+                visited.add(curr-arr[curr])
+                dque.append(curr-arr[curr])
+        return False
