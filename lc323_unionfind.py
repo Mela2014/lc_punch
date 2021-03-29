@@ -28,3 +28,34 @@ class UF:
         return p
     def getsize(self):
         return self.count
+
+    
+class Solution:
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        graph = {}
+        for i in range(n):
+            graph[i] = []
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+        rslt = 0
+        for i in range(n):
+            if i in graph:
+                self.bfs(i, graph)
+                rslt += 1
+        return rslt
+    
+    def dfs(self, i, graph):
+        kids = graph[i]
+        graph.pop(i)
+        for kid in kids:
+            if kid in graph:
+                self.dfs(kid, graph)
+    def bfs(self, i, graph):
+        queue = collections.deque([i])
+        while queue:
+            temp = queue.popleft()
+            if temp in graph:
+                for kid in graph[temp]:
+                    queue.append(kid)
+                graph.pop(temp)
