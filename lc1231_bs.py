@@ -10,8 +10,7 @@ class Solution:
             return cuts
 
         if len(sweetness) == K+1: return min(sweetness)
-        left, right = min(sweetness), sum(sweetness)
-        rslt = left
+        left, right = min(sweetness), sum(sweetness)//(K+1)+1
         while left <= right:
             mid = (left + right)//2
             if check(mid) > K:
@@ -19,4 +18,3 @@ class Solution:
             else:
                 right = mid - 1
         return right
-        
